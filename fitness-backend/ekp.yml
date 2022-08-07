@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+#  fitness-elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+#    container_name: elasticsearch_fitness
+#    environment:
+#      - cluster.name=fitness-cluster
+#      - 'ES_JAVA_OPTS=-Xms1024m -Xmx1024m'
+#      - 'discovery.type=single-node'
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    #    volumes:
+#    #      - elasticsearchdata:/usr/share/elasticsearch/data
+#    ports:
+#      - '9200:9200'
+#    networks:
+#      - my-network
+#    restart: always
+  fitness-postgresql:
+    image: postgres:14.1
+    container_name: postgres_fitness
+    environment:
+      - POSTGRES_USER=fitness
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5432:5432"
+  fitness-mailcatcher:
+    image: dockage/mailcatcher:0.7.1
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+volumes:
+  elasticsearchdata:
+networks:
+  my-network:
+    name: ek

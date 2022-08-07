@@ -1,0 +1,25 @@
+spring:
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.xml
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/fitness
+    driver-class-name: org.postgresql.Driver
+    username: fitness
+    password:
+    hikari:
+      pool-name: Hikari
+      auto-commit: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    open-in-view: false
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+springdoc:
+  api-docs:
+    path: /api-docs
