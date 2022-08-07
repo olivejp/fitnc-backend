@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/entrainement")
+@RequestMapping("/api/entrainement")
 public class EntrainementController implements
         WithControllerCreate<Entrainement, EntrainementService>,
         WithControllerUpdate<Entrainement, EntrainementService>,

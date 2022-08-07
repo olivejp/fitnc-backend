@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/etape")
+@RequestMapping("/api/etape")
 public class EtapeController implements
         WithControllerCreate<Etape, EtapeService>,
         WithControllerRead<Etape, EtapeService>,

@@ -21,10 +21,10 @@ import java.time.LocalDate;
 @DataJpaTest
 @RunWith(SpringRunner.class)
 public class EntrainementRepositoryTest {
-    @Autowired
+
     private EntrainementRepository entrainementRepository;
 
-    @Autowired
+
     private UtilisateurRepository utilisateurRepository;
 
     @Autowired

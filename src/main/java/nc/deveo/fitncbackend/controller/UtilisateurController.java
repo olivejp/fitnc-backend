@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/utilisateur")
+@RequestMapping("/api/utilisateur")
 public class UtilisateurController implements
         WithControllerCreate<Utilisateur, UtilisateurService>,
         WithControllerUpdate<Utilisateur, UtilisateurService>,
