@@ -39,6 +39,12 @@ public class Utilisateur extends AbstractEntity {
 
     private Integer telephone;
 
+    private String urlPhoto;
+
+    @NotNull
+    @Column(nullable = false)
+    private String uid;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateNaissance;

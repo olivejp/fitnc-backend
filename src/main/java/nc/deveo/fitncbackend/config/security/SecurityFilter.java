@@ -1,36 +1,24 @@
 package nc.deveo.fitncbackend.config.security;
 
-import com.google.auth.Credentials;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import lombok.RequiredArgsConstructor;
-import org.springdoc.core.SecurityService;
-
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
-@RequiredArgsConstructor
+@Slf4j
 public class SecurityFilter extends OncePerRequestFilter {
-
-    private final SecurityService securityService;
-
-    private final SecurityProperties restSecProps;
-
-    private final SecurityProperties securityProps;
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final Integer AUTHORIZATION_BEARER_NUMBER_CHARACTER = 7;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -39,49 +27,38 @@ public class SecurityFilter extends OncePerRequestFilter {
     }
 
     private void verifyToken(HttpServletRequest request) {
-        String session = null;
-        FirebaseToken decodedToken = null;
-        Credentials.CredentialType type = null;
-        boolean strictServerSessionEnabled = securityProps.getFirebaseProps().isEnableStrictServerSession();
-        Cookie sessionCookie = cookieUtils.getCookie("session");
-        String token = securityService.getBearerToken(request);
-        logger.info(token);
-        try {
-            if (sessionCookie != null) {
-                session = sessionCookie.getValue();
-                decodedToken = FirebaseAuth.getInstance().verifySessionCookie(session,
-                        securityProps.getFirebaseProps().isEnableCheckSessionRevoked());
-                type = Credentials.CredentialType.SESSION;
-            } else if (!strictServerSessionEnabled) {
-                if (token != null && !token.equalsIgnoreCase("undefined")) {
-                    decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-                    type = Credentials.CredentialType.ID_TOKEN;
-                }
+        final String token = resolveToken(request);
+        if (token != null && !token.isEmpty()) {
+            try {
+                final FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(token);
+                final UserSecurity userSecurity = getUserSecurity(firebaseToken);
+                final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userSecurity,
+                        token, null);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (FirebaseAuthException e) {
+                e.printStackTrace();
+                log.error("Firebase Exception: {}", e.getLocalizedMessage());
             }
-        } catch (FirebaseAuthException e) {
-            e.printStackTrace();
-            log.error("Firebase Exception:: ", e.getLocalizedMessage());
-        }
-        User user = firebaseTokenToUserDto(decodedToken);
-        if (user != null) {
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user,
-                    new Credentials(type, decodedToken, token, session), null);
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else {
+            log.warn("Aucun bearer a décodé.");
         }
     }
 
-    private User firebaseTokenToUserDto(FirebaseToken decodedToken) {
-        User user = null;
-        if (decodedToken != null) {
-            user = new User();
-            user.setUid(decodedToken.getUid());
-            user.setName(decodedToken.getName());
-            user.setEmail(decodedToken.getEmail());
-            user.setPicture(decodedToken.getPicture());
-            user.setIssuer(decodedToken.getIssuer());
-            user.setEmailVerified(decodedToken.isEmailVerified());
+    private UserSecurity getUserSecurity(FirebaseToken firebaseToken) {
+        return UserSecurity.builder()
+                .emailVerified(firebaseToken.isEmailVerified())
+                .name(firebaseToken.getName())
+                .photoUrl(firebaseToken.getPicture())
+                .name(firebaseToken.getName())
+                .uid(firebaseToken.getUid())
+                .build();
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        final String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(AUTHORIZATION_BEARER_NUMBER_CHARACTER);
         }
-        return user;
+        return null;
     }
 }

@@ -1,3 +1,13 @@
+fitnc:
+  firebase-admin-key: ${FIREBASE_ADMIN_KEY}
+  cors:
+    allowed-origins:
+      - http://localhost:4200
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers: "Authorization,X-Total-Count,Link,ETag"
+    allow-credentials: true
+    max-age: 1800
 spring:
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml

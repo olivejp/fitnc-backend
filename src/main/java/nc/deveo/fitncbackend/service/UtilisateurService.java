@@ -33,6 +33,10 @@ public class UtilisateurService implements
     private final UtilisateurRepository utilisateurRepository;
     private final ObjectMapper objectMapper;
 
+    public Utilisateur findByUid(String uid) {
+        return utilisateurRepository.findByUid(uid);
+    }
+
     @Override
     public Class<Utilisateur> getClazz() {
         return Utilisateur.class;
