@@ -16,9 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-public class SecurityFilter extends OncePerRequestFilter {
+public class FirebaseTokenVerifierFilter extends OncePerRequestFilter {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final Integer AUTHORIZATION_BEARER_NUMBER_CHARACTER = 7;
+    public static final String BEARER = "Bearer ";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -56,7 +57,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String resolveToken(HttpServletRequest request) {
         final String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER)) {
             return bearerToken.substring(AUTHORIZATION_BEARER_NUMBER_CHARACTER);
         }
         return null;

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Getter
 @Setter
-public class Exercice extends AbstractEntity {
+public class Exercice extends AbstractIdentifiedEntity {
 
     @NotNull
     @Column(nullable = false)

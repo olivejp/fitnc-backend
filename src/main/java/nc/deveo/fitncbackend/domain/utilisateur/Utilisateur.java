@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import nc.deveo.fitncbackend.domain.AbstractEntity;
+import nc.deveo.fitncbackend.domain.AbstractIdentifiedEntity;
 import nc.deveo.fitncbackend.domain.Entrainement;
 import nc.deveo.fitncbackend.domain.Exercice;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Utilisateur extends AbstractEntity {
+public class Utilisateur extends AbstractIdentifiedEntity {
 
     @Column(insertable = false, updatable = false)
     protected String dtype;

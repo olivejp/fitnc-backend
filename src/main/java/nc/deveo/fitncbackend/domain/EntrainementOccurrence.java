@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class EntrainementOccurrence extends AbstractEntity {
+public class EntrainementOccurrence extends AbstractIdentifiedEntity {
 
     private LocalDateTime datePrevue;
 

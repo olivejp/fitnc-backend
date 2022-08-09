@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Entrainement extends AbstractEntity {
+public class Entrainement extends AbstractIdentifiedEntity {
 
     @Column(insertable = false, updatable = false)
     protected String dtype;

@@ -20,8 +20,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String EXTERNAL_API_PREFIX = "/api/**";
 
     @Bean
-    public SecurityFilter securityFilter() {
-        return new SecurityFilter();
+    public FirebaseTokenVerifierFilter securityFilter() {
+        return new FirebaseTokenVerifierFilter();
     }
 
     @Bean
@@ -31,13 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web
-                .ignoring()
-                .antMatchers(HttpMethod.OPTIONS, "/**")
-                .antMatchers("/i18n/**")
-                .antMatchers("/content/**")
-                .antMatchers("/swagger-ui/index.html")
-                .antMatchers("/test/**");
+        // Not implemented
     }
 
     @Override
@@ -60,6 +54,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/i18n/**").permitAll()
+                .antMatchers("/content/**").permitAll()
+                .antMatchers("/swagger-ui/index.html").permitAll()
+                .antMatchers("/test/**").permitAll()
                 .antMatchers("/b2b/jobs/**").permitAll()
                 .antMatchers("/management/health").permitAll()
                 .antMatchers("/management/info").permitAll()

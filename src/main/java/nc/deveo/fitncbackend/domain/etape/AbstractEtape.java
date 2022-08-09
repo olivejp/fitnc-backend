@@ -3,7 +3,7 @@ package nc.deveo.fitncbackend.domain.etape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import nc.deveo.fitncbackend.domain.AbstractEntity;
+import nc.deveo.fitncbackend.domain.AbstractIdentifiedEntity;
 import nc.deveo.fitncbackend.domain.Exercice;
 import nc.deveo.fitncbackend.enums.TypeEtape;
 import nc.deveo.fitncbackend.enums.UniteDistance;
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 @Getter
 @Setter
-public abstract class AbstractEtape extends AbstractEntity {
+public abstract class AbstractEtape extends AbstractIdentifiedEntity {
 
     @NotNull
     @Column(nullable = false)
