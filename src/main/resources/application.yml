@@ -32,4 +32,4 @@ spring:
       write-dates-as-timestamps: false
 springdoc:
   api-docs:
-    path: /api-docs
+    path: /V3/api-docs
