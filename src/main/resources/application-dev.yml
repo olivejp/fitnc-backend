@@ -1,0 +1,17 @@
+fitnc:
+  cors:
+    allowed-origins:
+      - http://localhost:4200
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/fitness
+    driver-class-name: org.postgresql.Driver
+    username: fitness
+    password:
+    hikari:
+      pool-name: Hikari
+      auto-commit: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

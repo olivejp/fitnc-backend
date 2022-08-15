@@ -1,28 +1,18 @@
 fitnc:
   firebase-admin-key: ${FIREBASE_ADMIN_KEY}
   cors:
-    allowed-origins:
-      - http://localhost:4200
     allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: "Authorization,X-Total-Count,Link,ETag"
     allow-credentials: true
     max-age: 1800
 spring:
+  profiles:
+    active: @active.profile@
   liquibase:
     change-log: classpath:/db/changelog/changelog-master.xml
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/fitness
-    driver-class-name: org.postgresql.Driver
-    username: fitness
-    password:
-    hikari:
-      pool-name: Hikari
-      auto-commit: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy

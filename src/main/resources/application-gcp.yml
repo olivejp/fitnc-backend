@@ -1,0 +1,20 @@
+fitnc:
+  cors:
+    allowed-origins:
+      - http://fitnc-frontend.web.app
+spring:
+  cloud:
+    gcp:
+      sql:
+        instance-connection-name: fitnc-7be2e:australia-southeast1:postgresql-fitness
+        database-name: fitness-db
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    username: ${SPRING_DATASOURCE_USER}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      pool-name: Hikari
+      auto-commit: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
