@@ -1,8 +1,9 @@
 package nc.deveo.fitncbackend.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import nc.deveo.fitncbackend.domain.etape.Etape;
 import nc.deveo.fitncbackend.domain.utilisateur.Utilisateur;
 import nc.deveo.fitncbackend.enums.TypeEntrainement;
@@ -14,24 +15,24 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@SuperBuilder
+@NoArgsConstructor
 public class Entrainement extends AbstractIdentifiedEntity {
-
-    @Column(insertable = false, updatable = false)
-    protected String dtype;
 
     @NotNull
     @Column(nullable = false)
     protected String nom;
+
+    protected String description;
 
     @NotNull
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     protected TypeEntrainement typeEntrainement;
 
-    @OneToMany(orphanRemoval = true, mappedBy = "entrainement")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<Etape> etapes;
 
-    @JsonIgnore
     @ManyToOne(optional = false)
     protected Utilisateur utilisateur;
 

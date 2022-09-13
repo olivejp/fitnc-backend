@@ -4,13 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum UniteTemps {
-    HEURE(60 * 60),
-    MINUTE(60),
-    SECONDE(1);
+    HEURE("Heure", 60 * 60),
+    MINUTE("Minute", 60),
+    SECONDE("Seconde", 1);
 
+    private final String label;
     private final Integer nombreSeconde;
 
-    UniteTemps(Integer nombreSeconde) {
+    UniteTemps(String label, Integer nombreSeconde) {
+        this.label = label;
         this.nombreSeconde = nombreSeconde;
     }
 }

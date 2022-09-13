@@ -1,6 +1,5 @@
 package nc.deveo.fitncbackend.domain.etape;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import nc.deveo.fitncbackend.domain.AbstractIdentifiedEntity;
@@ -29,25 +28,37 @@ public abstract class AbstractEtape extends AbstractIdentifiedEntity {
 
     protected String description;
 
-    protected Integer tempsRepos; // Ne devrait être rempli que si c'est un type REPOS
-
-    protected UniteTemps uniteTempsRepos; // Ne devrait être rempli que si c'est un type REPOS
-
     protected Integer repetition;
 
-    protected Integer poids;
+
+
+    protected Integer tempsRepos; // Ne devrait être rempli que si c'est un type REPOS
+
+    @Enumerated(EnumType.STRING)
+    protected UniteTemps uniteTempsRepos; // Ne devrait être rempli que si c'est un type REPOS
+
+
 
     protected Integer temps;
 
+    @Enumerated(EnumType.STRING)
     protected UniteTemps uniteTemps;
 
+
+
+    protected Integer poids;
+
+    @Enumerated(EnumType.STRING)
     protected UnitePoids unitePoids;
+
+
 
     protected Integer distance;
 
+    @Enumerated(EnumType.STRING)
     protected UniteDistance uniteDistance;
 
-    @JsonIgnore
+
     @ManyToOne
     protected Exercice exercice; // Non obligatoire dans le cas d'une étape de repos.
 }

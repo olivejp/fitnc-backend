@@ -12,6 +12,5 @@
     <property name="clobType" value="clob" dbms="postgresql"/>
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
-<!--    <include file="classpath:config/liquibase/changelog/20220524160800000_alter_localisation.xml"
-             relativeToChangelogFile="false"/>-->
+    <!--<include file="classpath:db/changelog/init_data.sql" relativeToChangelogFile="false"/>-->
 </databaseChangeLog>

@@ -13,9 +13,9 @@ public class AbonnementIds implements Serializable {
 
     @OneToOne(optional = false)
     @JoinColumn(nullable = false, name = "entraineur_id")
-    private Entraineur entraineur;
+    public Entraineur entraineur;
 
     @OneToOne(optional = false)
     @JoinColumn(nullable = false, name = "utilisateur_id")
-    private Utilisateur utilisateur;
+    public Utilisateur utilisateur;
 }

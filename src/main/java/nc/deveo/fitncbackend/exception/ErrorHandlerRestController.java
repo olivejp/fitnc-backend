@@ -15,6 +15,7 @@ import java.util.Map;
 public class ErrorHandlerRestController {
 
     public static final int BAD_REQUEST_STATUS_CODE = 400;
+    public static final int NOT_FOUND_STATUS_CODE = 404;
     public static final String ERROR = "error";
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -37,14 +38,13 @@ public class ErrorHandlerRestController {
         return errors;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
     public Map<String, Object> handleServiceExceptions(NotFoundException ex) {
         var errors = new HashMap<String, Object>();
         errors.put(ERROR, ex.getMessage());
-        errors.put("status", BAD_REQUEST_STATUS_CODE);
-        errors.put("trace", ex.getStackTrace());
-        errors.put("type", ex.getClass());
+        errors.put("status", NOT_FOUND_STATUS_CODE);
+        errors.put("message", ex.getMessage());
         return errors;
     }
 }

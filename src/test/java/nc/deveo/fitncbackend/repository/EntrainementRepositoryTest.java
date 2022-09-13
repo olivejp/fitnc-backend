@@ -3,6 +3,7 @@ package nc.deveo.fitncbackend.repository;
 import nc.deveo.fitncbackend.domain.Entrainement;
 import nc.deveo.fitncbackend.domain.Exercice;
 import nc.deveo.fitncbackend.domain.etape.Etape;
+import nc.deveo.fitncbackend.domain.utilisateur.Entraineur;
 import nc.deveo.fitncbackend.domain.utilisateur.Utilisateur;
 import nc.deveo.fitncbackend.enums.TypeEntrainement;
 import nc.deveo.fitncbackend.enums.TypeEtape;
@@ -37,12 +38,12 @@ public class EntrainementRepositoryTest {
 
     @Before
     public void setup() {
-        Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setNom("OLIVE");
-        utilisateur.setPrenom("Jean Paul");
-        utilisateur.setEmail("orlanth23@gmail.com");
-        utilisateur.setDateNaissance(LocalDate.now());
-        this.utilisateur = utilisateurRepository.save(utilisateur);
+        Entraineur entraineur = new Entraineur();
+        entraineur.setNom("OLIVE");
+        entraineur.setPrenom("Jean Paul");
+        entraineur.setEmail("orlanth23@gmail.com");
+        entraineur.setDateNaissance(LocalDate.now());
+        this.utilisateur = utilisateurRepository.save(entraineur);
     }
 
     @After
@@ -76,14 +77,12 @@ public class EntrainementRepositoryTest {
         final Etape etape1 = new Etape();
         etape1.setOrdre(1);
         etape1.setTypeEtape(TypeEtape.EXERCICE);
-        etape1.setEntrainement(roundsEntrainement);
         etape1.setExercice(pompe);
         etapeRepository.save(etape1);
 
         final Etape etape2 = new Etape();
         etape2.setOrdre(2);
         etape2.setTypeEtape(TypeEtape.REPOS);
-        etape2.setEntrainement(roundsEntrainement);
         etape2.setTempsRepos(30);
         etape2.setUniteTempsRepos(UniteTemps.SECONDE);
         etapeRepository.save(etape2);
@@ -91,14 +90,12 @@ public class EntrainementRepositoryTest {
         final Etape etape3 = new Etape();
         etape3.setOrdre(3);
         etape3.setTypeEtape(TypeEtape.EXERCICE);
-        etape3.setEntrainement(roundsEntrainement);
         etape3.setExercice(squat);
         etapeRepository.save(etape3);
 
         final Etape etape4 = new Etape();
         etape4.setOrdre(4);
         etape4.setTypeEtape(TypeEtape.REPOS);
-        etape4.setEntrainement(roundsEntrainement);
         etape4.setTempsRepos(30);
         etape4.setUniteTempsRepos(UniteTemps.SECONDE);
         etapeRepository.save(etape4);
@@ -127,7 +124,6 @@ public class EntrainementRepositoryTest {
         final Etape etape1 = new Etape();
         etape1.setOrdre(1);
         etape1.setTypeEtape(TypeEtape.EXERCICE);
-        etape1.setEntrainement(defautEntrainement);
         etape1.setExercice(marche);
         etape1.setTemps(30);
         etape1.setUniteTemps(UniteTemps.MINUTE);
@@ -136,7 +132,6 @@ public class EntrainementRepositoryTest {
         final Etape etape2 = new Etape();
         etape2.setOrdre(2);
         etape2.setTypeEtape(TypeEtape.EXERCICE);
-        etape2.setEntrainement(defautEntrainement);
         etape2.setExercice(faireDesPas);
         etape2.setRepetition(10_000);
         etapeRepository.save(etape2);

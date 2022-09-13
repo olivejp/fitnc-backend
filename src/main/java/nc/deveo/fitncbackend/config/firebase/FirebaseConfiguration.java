@@ -19,6 +19,7 @@ public class FirebaseConfiguration {
     public FirebaseApp firebaseApp(final FitncProperties fitncProperties) throws IOException {
         log.info("Lancement de l'application Firebase. \u2764");
         final String adminKey = fitncProperties.getFirebaseAdminKey();
+        log.info(adminKey);
 
         final GoogleCredentials credentials = GoogleCredentials.fromStream(new ByteArrayInputStream(adminKey.getBytes()));
 

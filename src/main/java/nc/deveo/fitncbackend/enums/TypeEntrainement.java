@@ -13,13 +13,13 @@ public enum TypeEntrainement {
     AMRAP("As Many Round As Possible", true), // Pouvoir choisir la durée.
     FOR_TIME("For time", true), // Pouvoir rentrer un temps à la fin de l'entrainement
     ROUNDS("Rounds", true), // Pouvoir saisir un nombre de rounds.
-    EMOM("Each Minute On the Minute", true); // Pouvoir saisir le nombre de minute.
+    EMOM("Each Minute On the Minute", true); // Pouvoir saisir le nombre de minutes.
 
-    private final String libelle;
+    private final String label;
     private final Boolean crossfit;
 
-    TypeEntrainement(String libelle, Boolean crossfit) {
-        this.libelle = libelle;
+    TypeEntrainement(String label, Boolean crossfit) {
+        this.label = label;
         this.crossfit = crossfit;
     }
 }

@@ -14,9 +14,9 @@ public enum TypeExercice {
     REPETITION_POIDS("Permet de définir un objectif de répétition et de poids"),
     REPETITION_POIDS_TEMPS("Permet de définir un objectif de répétition, de poids et de temps");
 
-    private final String libelle;
+    private final String label;
 
-    TypeExercice(String libelle) {
-        this.libelle = libelle;
+    TypeExercice(String label) {
+        this.label = label;
     }
 }

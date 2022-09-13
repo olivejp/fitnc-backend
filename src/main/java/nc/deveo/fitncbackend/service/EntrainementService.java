@@ -1,16 +1,21 @@
 package nc.deveo.fitncbackend.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonpatch.JsonPatch;
-import com.github.fge.jsonpatch.JsonPatchException;
 import lombok.RequiredArgsConstructor;
+import nc.deveo.fitncbackend.config.security.UserSecurity;
 import nc.deveo.fitncbackend.domain.Entrainement;
+import nc.deveo.fitncbackend.domain.utilisateur.Utilisateur;
+import nc.deveo.fitncbackend.dto.EntrainementDto;
 import nc.deveo.fitncbackend.exception.NotFoundException;
 import nc.deveo.fitncbackend.repository.EntrainementRepository;
-import nc.deveo.fitncbackend.service.interfaces.*;
+import nc.deveo.fitncbackend.service.interfaces.WithServiceCreate;
+import nc.deveo.fitncbackend.service.interfaces.WithServiceDelete;
+import nc.deveo.fitncbackend.service.interfaces.WithServiceRead;
+import nc.deveo.fitncbackend.service.interfaces.WithServiceUpdate;
+import nc.deveo.fitncbackend.service.mapper.EntrainementMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,55 +23,50 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class EntrainementService implements
-        WithServiceRead<Entrainement>,
-        WithServiceCreate<Entrainement>,
-        WithServiceUpdate<Entrainement>,
-        WithServicePatch<Entrainement>,
+        WithServiceRead<EntrainementDto>,
+        WithServiceCreate<EntrainementDto>,
+        WithServiceUpdate<EntrainementDto>,
         WithServiceDelete {
 
     private final EntrainementRepository entrainementRepository;
-    private final ObjectMapper objectMapper;
+    private final UtilisateurService utilisateurService;
+    private final EntrainementMapper mapper;
 
     @Override
-    public Class<Entrainement> getClazz() {
-        return Entrainement.class;
+    public EntrainementDto create(EntrainementDto dto) {
+        final Utilisateur utilisateur = utilisateurService.findByUid(getCurrentUid());
+        final Entrainement entrainement = mapper.toEntity(dto);
+        entrainement.setUtilisateur(utilisateur);
+        return mapper.toDto(entrainementRepository.save(entrainement));
     }
 
     @Override
-    public ObjectMapper getObjectMapper() {
-        return this.objectMapper;
-    }
-
-    @Override
-    public Entrainement create(Entrainement entity) {
-        return entrainementRepository.save(entity);
-    }
-
-    @Override
-    public Entrainement update(Long id, Entrainement entrainement) {
-        return entrainementRepository.save(entrainement);
+    public EntrainementDto update(Long id, EntrainementDto dto) {
+        final String utilisateurUid = getCurrentUid();
+        final Entrainement entrainementRead = entrainementRepository.findByIdAndUtilisateur_Uid(id, utilisateurUid).orElseThrow(NotFoundException::new);
+        BeanUtils.copyProperties(dto, entrainementRead, "createdDate");
+        entrainementRepository.save(entrainementRead);
+        return mapper.toDto(entrainementRead);
     }
 
     @Override
     public void delete(Long id) {
-        final Entrainement entrainement = entrainementRepository.findById(id).orElseThrow(() -> new NotFoundException("L'entrainement n'a pas été trouvé."));
+        final Entrainement entrainement = entrainementRepository.findByIdAndUtilisateur_Uid(id, getCurrentUid()).orElseThrow(() -> new NotFoundException("L'entrainement n'a pas été trouvé."));
         entrainementRepository.delete(entrainement);
     }
 
     @Override
-    public Entrainement patch(Long id, JsonPatch patch) throws JsonPatchException, JsonProcessingException {
-        final Entrainement entityToUpdate = entrainementRepository.findById(id).orElseThrow(NotFoundException::new);
-        final Entrainement entityPatched = applyPatch(patch, entityToUpdate);
-        return entrainementRepository.save(entityPatched);
+    public Page<EntrainementDto> readPage(Pageable pageable) {
+        return entrainementRepository.findAllByUtilisateur_Uid(getCurrentUid(), pageable).map(mapper::toDto);
     }
 
     @Override
-    public Page<Entrainement> readPage(Pageable pageable) {
-        return entrainementRepository.findAll(pageable);
+    public EntrainementDto read(Long id) {
+        return entrainementRepository.findByIdAndUtilisateur_Uid(id, getCurrentUid()).map(mapper::toDto).orElseThrow(NotFoundException::new);
     }
 
-    @Override
-    public Entrainement read(Long id) {
-        return entrainementRepository.findById(id).orElseThrow(NotFoundException::new);
+    private String getCurrentUid() {
+        final UserSecurity principal = (UserSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.getUid();
     }
 }

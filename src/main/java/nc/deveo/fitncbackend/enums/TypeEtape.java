@@ -7,9 +7,9 @@ public enum TypeEtape {
     EXERCICE("Exercice"),
     REPOS("Repos");
 
-    private final String libelle;
+    private final String label;
 
-    TypeEtape(String libelle) {
-        this.libelle = libelle;
+    TypeEtape(String label) {
+        this.label = label;
     }
 }

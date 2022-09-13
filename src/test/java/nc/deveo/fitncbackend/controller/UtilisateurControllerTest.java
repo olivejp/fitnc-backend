@@ -1,6 +1,7 @@
 package nc.deveo.fitncbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nc.deveo.fitncbackend.domain.utilisateur.Entraineur;
 import nc.deveo.fitncbackend.domain.utilisateur.Utilisateur;
 import nc.deveo.fitncbackend.repository.UtilisateurRepository;
 import nc.deveo.fitncbackend.service.UtilisateurService;
@@ -12,13 +13,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.time.LocalDate;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,13 +35,13 @@ public class UtilisateurControllerTest {
     @MockBean
     private UtilisateurRepository repository;
 
-    private Utilisateur getUtilisateur() {
-        final Utilisateur utilisateur = new Utilisateur();
-        utilisateur.setEmail("o@gmail.com");
-        utilisateur.setNom("OLIVE");
-        utilisateur.setPrenom("JP");
-        utilisateur.setDateNaissance(LocalDate.now());
-        return utilisateur;
+    private Entraineur getEntraineur() {
+        final Entraineur entraineur = new Entraineur();
+        entraineur.setEmail("o@gmail.com");
+        entraineur.setNom("OLIVE");
+        entraineur.setPrenom("JP");
+        entraineur.setDateNaissance(LocalDate.now());
+        return entraineur;
     }
 
     @Test
@@ -56,7 +53,7 @@ public class UtilisateurControllerTest {
 
     @Test
     public void testPost_shouldSuccess() throws Exception {
-        final Utilisateur utilisateur = getUtilisateur();
+        final Utilisateur utilisateur = getEntraineur();
 
         var utilisateurString = objectMapper.writeValueAsString(utilisateur);
 
@@ -69,7 +66,7 @@ public class UtilisateurControllerTest {
 
     @Test
     public void testPut_shouldSuccess() throws Exception {
-        final Utilisateur utilisateur = getUtilisateur();
+        final Utilisateur utilisateur = getEntraineur();
 
         var utilisateurString = objectMapper.writeValueAsString(utilisateur);
 

@@ -34,7 +34,7 @@ public class UtilisateurService implements
     private final ObjectMapper objectMapper;
 
     public Utilisateur findByUid(String uid) {
-        return utilisateurRepository.findByUid(uid);
+        return utilisateurRepository.findByUid(uid).orElseThrow(() -> new NotFoundException("L'utilisateur n'a pas été trouvé."));
     }
 
     @Override
@@ -79,6 +79,6 @@ public class UtilisateurService implements
 
     @Override
     public Utilisateur read(Long id) {
-        return utilisateurRepository.findById(id).orElseThrow(NotFoundException::new);
+        return utilisateurRepository.findById(id).orElseThrow(() -> new NotFoundException("L'utilisateur n'a pas été trouvé."));
     }
 }
