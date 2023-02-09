@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class EnumController {
+public class EnumDto {
     private String label;
     private Object value;
 }

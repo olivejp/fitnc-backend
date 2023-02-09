@@ -47,6 +47,7 @@ public class FirebaseTokenVerifierFilter extends OncePerRequestFilter {
 
     private UserSecurity getUserSecurity(FirebaseToken firebaseToken) {
         return UserSecurity.builder()
+                .email(firebaseToken.getEmail())
                 .emailVerified(firebaseToken.isEmailVerified())
                 .name(firebaseToken.getName())
                 .photoUrl(firebaseToken.getPicture())

@@ -1,9 +1,8 @@
 package nc.deveo.fitncbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import nc.deveo.fitncbackend.enums.EnumController;
+import nc.deveo.fitncbackend.enums.EnumDto;
 import nc.deveo.fitncbackend.enums.TypeEtape;
-import nc.deveo.fitncbackend.enums.TypeExercice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,9 +17,9 @@ import java.util.stream.Collectors;
 public class TypeEtapeController {
 
     @GetMapping
-    public List<EnumController> getAll() {
+    public List<EnumDto> getAll() {
         return Arrays.stream(TypeEtape.values())
-                .map(typeEtape -> new EnumController(typeEtape.getLabel(), typeEtape.name()))
+                .map(typeEtape -> new EnumDto(typeEtape.getLabel(), typeEtape.name()))
                 .collect(Collectors.toList());
     }
 }

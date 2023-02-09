@@ -19,6 +19,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.*;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -31,6 +35,14 @@ public class EntrainementService implements
     private final EntrainementRepository entrainementRepository;
     private final UtilisateurService utilisateurService;
     private final EntrainementMapper mapper;
+
+    public List<EntrainementDto> getFromDateTime(LocalDate date) {
+        final Utilisateur utilisateur = utilisateurService.findByUid(getCurrentUid());
+        final Instant dateStartDay = date.atStartOfDay().toInstant(ZoneOffset.UTC);
+        final Instant dateEndDay = date.atTime(LocalTime.MIDNIGHT).toInstant(ZoneOffset.UTC);
+        return entrainementRepository.findAllByUtilisateur_UidAndCreatedDateBetween(utilisateur.getUid(), dateStartDay, dateEndDay)
+                .stream().map(mapper::toDto).collect(Collectors.toList());
+    }
 
     @Override
     public EntrainementDto create(EntrainementDto dto) {

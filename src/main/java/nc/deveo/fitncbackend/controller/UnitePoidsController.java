@@ -1,8 +1,7 @@
 package nc.deveo.fitncbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import nc.deveo.fitncbackend.enums.EnumController;
-import nc.deveo.fitncbackend.enums.TypeExercice;
+import nc.deveo.fitncbackend.enums.EnumDto;
 import nc.deveo.fitncbackend.enums.UnitePoids;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +17,9 @@ import java.util.stream.Collectors;
 public class UnitePoidsController {
 
     @GetMapping
-    public List<EnumController> getAll() {
+    public List<EnumDto> getAll() {
         return Arrays.stream(UnitePoids.values())
-                .map(typeExercice -> new EnumController(typeExercice.getLabel(), typeExercice.name()))
+                .map(typeExercice -> new EnumDto(typeExercice.getLabel(), typeExercice.name()))
                 .collect(Collectors.toList());
     }
 }

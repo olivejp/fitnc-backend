@@ -13,8 +13,8 @@ public interface WithServicePatch<T> {
 
     ObjectMapper getObjectMapper();
 
-    default T applyPatch(JsonPatch patch, T utilisateur) throws JsonPatchException, JsonProcessingException {
-        final JsonNode patched = patch.apply(getObjectMapper().convertValue(utilisateur, JsonNode.class));
+    default T applyPatch(JsonPatch patch, T entity) throws JsonPatchException, JsonProcessingException {
+        final JsonNode patched = patch.apply(getObjectMapper().convertValue(entity, JsonNode.class));
         return getObjectMapper().treeToValue(patched, getClazz());
     }
 }

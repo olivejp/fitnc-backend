@@ -6,12 +6,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface EntrainementRepository extends JpaRepository<Entrainement, Long> {
     Page<Entrainement> findAllByUtilisateur_Uid(String utilisateurUid, Pageable pageable);
+
     Optional<Entrainement> findByIdAndUtilisateur_Uid(Long id, String utilisateurUid);
+
+    List<Entrainement> findAllByUtilisateur_UidAndCreatedDateBetween(String uidUtilisateur, Instant dateDebut, Instant dateFin);
+
     Boolean existsByIdAndUtilisateur_Uid(Long id, String utilisateurUid);
 }
