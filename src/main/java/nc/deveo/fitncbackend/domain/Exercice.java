@@ -26,4 +26,6 @@ public class Exercice extends AbstractIdentifiedEntity {
     @JsonIgnore
     @ManyToOne(optional = false)
     private Utilisateur utilisateur;
+
+    private String description;
 }

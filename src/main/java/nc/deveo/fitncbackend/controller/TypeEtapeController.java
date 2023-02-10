@@ -19,7 +19,7 @@ public class TypeEtapeController {
     @GetMapping
     public List<EnumDto> getAll() {
         return Arrays.stream(TypeEtape.values())
-                .map(typeEtape -> new EnumDto(typeEtape.getLabel(), typeEtape.name()))
+                .map(EnumDto::toEnumDto)
                 .collect(Collectors.toList());
     }
 }

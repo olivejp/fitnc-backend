@@ -19,7 +19,7 @@ public class UnitePoidsController {
     @GetMapping
     public List<EnumDto> getAll() {
         return Arrays.stream(UnitePoids.values())
-                .map(typeExercice -> new EnumDto(typeExercice.getLabel(), typeExercice.name()))
+                .map(EnumDto::toEnumDto)
                 .collect(Collectors.toList());
     }
 }

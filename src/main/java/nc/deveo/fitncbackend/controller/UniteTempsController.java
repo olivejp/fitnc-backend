@@ -19,7 +19,7 @@ public class UniteTempsController {
     @GetMapping
     public List<EnumDto> getAll() {
         return Arrays.stream(UniteTemps.values())
-                .map(uniteTemps -> new EnumDto(uniteTemps.getLabel(), uniteTemps.name()))
+                .map(EnumDto::toEnumDto)
                 .collect(Collectors.toList());
     }
 }

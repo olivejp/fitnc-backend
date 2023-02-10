@@ -19,7 +19,7 @@ public class TypeExerciceController {
     @GetMapping
     public List<EnumDto> getAll() {
         return Arrays.stream(TypeExercice.values())
-                .map(typeExercice -> new EnumDto(typeExercice.getLabel(), typeExercice.name()))
+                .map(EnumDto::toEnumDto)
                 .collect(Collectors.toList());
     }
 }

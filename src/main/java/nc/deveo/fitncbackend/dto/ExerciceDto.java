@@ -14,6 +14,7 @@ public class ExerciceDto extends AbstractDto {
 
     @NotNull
     private String nom;
+    private String description;
 
     @NotNull
     private TypeExercice typeExercice;
