@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ public interface EntrainementRepository extends JpaRepository<Entrainement, Long
 
     Optional<Entrainement> findByIdAndUtilisateur_Uid(Long id, String utilisateurUid);
 
-    List<Entrainement> findAllByUtilisateur_UidAndCreatedDateBetween(String uidUtilisateur, Instant dateDebut, Instant dateFin);
+    List<Entrainement> findAllByUtilisateur_UidAndDateEntrainement(String uidUtilisateur, LocalDate dateEntrainement);
 
     Boolean existsByIdAndUtilisateur_Uid(Long id, String utilisateurUid);
 }

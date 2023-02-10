@@ -36,11 +36,9 @@ public class EntrainementService implements
     private final UtilisateurService utilisateurService;
     private final EntrainementMapper mapper;
 
-    public List<EntrainementDto> getFromDateTime(LocalDate date) {
+    public List<EntrainementDto> getFromDateTime(LocalDate dateEntrainement) {
         final Utilisateur utilisateur = utilisateurService.findByUid(getCurrentUid());
-        final Instant dateStartDay = date.atStartOfDay().toInstant(ZoneOffset.UTC);
-        final Instant dateEndDay = date.atTime(LocalTime.MIDNIGHT).toInstant(ZoneOffset.UTC);
-        return entrainementRepository.findAllByUtilisateur_UidAndCreatedDateBetween(utilisateur.getUid(), dateStartDay, dateEndDay)
+        return entrainementRepository.findAllByUtilisateur_UidAndDateEntrainement(utilisateur.getUid(), dateEntrainement)
                 .stream().map(mapper::toDto).collect(Collectors.toList());
     }
 

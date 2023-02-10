@@ -10,6 +10,7 @@ import nc.deveo.fitncbackend.enums.TypeEntrainement;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -33,10 +34,16 @@ public class Entrainement extends AbstractIdentifiedEntity {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     protected List<Etape> etapes;
 
+    @NotNull
     @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     protected Utilisateur utilisateur;
 
     private Integer rounds; // Obligatoire pour le type ROUNDS
 
     private Integer minute; // Obligatoire pour les types EMOM et AMRAP
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDate dateEntrainement;
 }

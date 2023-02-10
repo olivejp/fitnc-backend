@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import nc.deveo.fitncbackend.enums.TypeEntrainement;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -22,4 +23,5 @@ public class EntrainementDto {
     private Integer rounds;
     private Integer minute;
     private Instant createdDate;
+    private LocalDate dateEntrainement;
 }
